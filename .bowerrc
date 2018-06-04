@@ -1,0 +1,13 @@
+{
+  "timeout": 300000,
+  "directory":".",
+  "registry": {
+    "register": "http://10.100.3.213:8099/bower/",
+    "publish": "http://10.100.3.213:8099/bower/",
+    "search": [
+      "http://10.100.3.213:8099/bower/",
+      "https://bower.herokuapp.com"
+
+    ]
+  }
+}

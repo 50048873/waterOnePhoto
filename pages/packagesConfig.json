@@ -1,0 +1,32 @@
+{
+  "extraPaths": [
+    {
+      "name": "test",
+      "url": "pages/app/demos/test"
+    },
+    {
+      "name": "web2d",
+      "url": "pages/app/gis"
+    },
+    {
+      "name": "table",
+      "url": "pages/app/demos/singletable-test"
+    },
+    {
+      "name": "table-vue",
+      "url": "pages/app/demos/singletable-vue"
+    },
+    {
+      "name": "edit",
+      "url": "pages/app/demos/easyui"
+    },
+    {
+      "name": "innerEdit",
+      "url": "pages/app/demos/singletable-edit"
+    },
+    {
+      "name": "vueWidgets",
+      "url": "pages/app/demos/vueWidgets"
+    }
+  ]
+}

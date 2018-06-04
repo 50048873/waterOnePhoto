@@ -1,0 +1,34 @@
+{
+  "name": "dsedocs",
+  "description": "前端框架帮助文档",
+  "version": "1.0.1",
+  "main": "index.js",
+  "authors": [
+    "wangsl <wangsl@dse.cn>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "arcgis",
+    "javascript",
+    "supermap",
+    "skyline"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "**/*.less",
+    "**/*.scss",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "config",
+    "assets",
+    "server"
+  ],
+  "devDependencies": {
+    "server": "*",
+    "assets": "^1.0.0",
+    "config": "*"
+  }
+}

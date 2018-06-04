@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>前端框架说明</title>
+
+    <link rel="stylesheet" href="./build/css/bootstrap.min.css">
+
+</head>
+<body class="container-fluid">
+
+
+<!--v1.1.1-->
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <h3>前端框架v2.0.0</h3>
+        </div>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item active"><strong>发布时间:</strong>2018-04-20</li>
+        <li class="list-group-item active"><strong>发布版本:</strong>V2.0.0</li>
+    </ul>
+
+
+    <h3>新特性说明</h3>
+
+    <p class="info">
+    <h4>1.引入新的构建工具</h4>
+    在这个版本中，在原来的(v1.1.0)框架中集成了webpack构建工具，进行前端代码的构建，默认为webpack构建工具，
+    在这个项目中，JS代码可以采用 ES6或者Typescript``` 语言进行编写, CSS可以采用Less或者SASS进行编写
+
+    </p>
+    <p class="info">
+    <h4>2.集成eslint工具</h4>
+
+    对Javascript编码风格进行静态检查.
+    </p>
+
+    <p>
+    <h4>3. 实现前后端开发分离</h4>
+    </p>
+    <p>
+    <h4> 4. 支持 .vue文件组进行模块化开发方式。</h4>
+    </p>
+
+    <p>
+    <h4> 5. 兼容RequireJS 版本</h4>
+    <span>RequireJS 版本为了保证原有项目目录建构，在框架中引入了bower进行代码管理, 在使用这个版本之前需要首先安装git,bower,
+    执行 <strong> npm install -g bower  </strong>,然后执行 bower install生成目录结构,
+    </span>
+    </p>
+
+    <p>
+    <h4>6. 集成GIS框架</h4>
+
+    <span>
+       在前端内框架中默认没有集成GIS通用框架,如果需要在项目中使用GIS框架 则需要在当前项目中安装GIS框架,执行 <span class="sunlight-required">
+                <strong> npm install gisframework-arcgis</strong></span>安装
+    </span>
+    </p>
+
+    <p>
+    <h4 style="color: red;">备注：框架默认支持webpack 打包 ，如果需要使用RequireJS 版本，请执行第4步。</h4>
+    </p>
+
+
+    <hr>
+
+    <h3>2.使用说明</h3>
+
+    <div>
+
+        <p>
+        <h4> (1) 启动框架</h4>
+        <pre>
+安装依赖： npm install
+启动项目: npm run dev
+打包项目: npm run build
+GIS打包: npm run gisbuild , 因为arcgis js api 目前对webpack集成不是太好，因此gis模块暂时不使用 webpack进行打包.
+            </pre>
+        </p>
+
+        <p>
+        <h4>(2) 跨域配置</h4>
+
+        <pre>
+ 打开 ./build/extconfig.js,在其中修改跨域配置.
+//跨域服务器配置.
+module.exports.crossServers = {
+
+// "/arcgis_js_api/": "http://10.100.9.213:8096",
+"/common-biz/": "http://10.100.9.52:8086"
+};
+//设置端口 默认为8080
+module.exports.PORT = "8080";
+//设置IP地址. 默认为 localhost
+module.exports.ADDRESS = "localhost";</pre>
+        </p>
+
+        <p>
+        <h4> (3)开发注重事项.</h4>
+        因为项目在执行打包的时候，会对页面主文件进行合并，为了方便文件合并的顺利进行，在原来版（requirejs）本中约定如下:<br>
+
+        （1） 主文件必须以 main.js,html主页面以 index.html结尾.<br>
+        （2）所有amd模块定义必须遵循 amd 规范进行定义 定义模块使用: ```define```，引用模块使用 ```require```<br>
+        （3） 示例代码
+        <pre>
+//定义模块.
+// 模块名称为 a .
+define(["jquery"],function($){
+//
+var mo={
+showInfo:function(msg){
+console.log(msg);
+}
+};
+                //
+return mo;
+});
+
+// 引用模块.
+
+require(["a"],function(a){
+                //
+   a.showInfo("hao");
+
+ });
+
+ // 在原来已经开发的页面中,由于主页面的定义方式是通过 define关键字定义的. 因此在打包时不会合并文件，
+ // 如果需要合并文件，则需要按照上述规则修改主文件调用方式.
+        </pre>
+        </p>
+
+        <p>
+        <h4>(4)在基于webpack的构建工具中不需要遵循开发注意事项中的(2),(3)条,</h4>
+
+        在使用webpack工具构建时, 为了和RequireJS版本(v1.1.0)进行区分,代码目录结构划分如下:
+
+        <ul>
+            <li>src/ 源代码文件夹</li>
+            <li> dist/项目打包后的代码目录</li>
+            <li>test/ 为测试用例文件夹</li>
+        </ul>
+        </p>
+
+        <p>
+        <h4> (5) 旧版本(requireJS)版本代码如下</h4>
+
+
+        <ul>
+            <li> assets/ 第三方库存放目录</li>
+            <li>config/ 配置文件路径</li>
+            <li> pages/ 项目文件存放路径.</li>
+            <li> dist/ 项目打包后路径.</li>
+            <li>test/ 为测试用例文件夹</li>
+        </ul>
+        </p>
+
+    </div>
+
+
+</div>
+
+
+<!--v1.1.0-->
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <h3>前端框架v1.1.0</h3>
+        </div>
+    </div>
+
+    <div class="panel-body">
+
+        <ul class="list-group">
+            <li class="list-group-item active"><strong>发布时间:</strong>2017-11-20</li>
+            <li class="list-group-item active"><strong>发布版本:</strong>V1.1.0</li>
+        </ul>
+        <hr>
+        <h4>新特性:</h4>
+
+        <div class="sunlight-content">
+
+            <p>1、重构前端框架代码,完善框架帮助文档</p>
+            <p>2、解决前端框架页面问题</p>
+            <p>3、引入nodejs,托管前端框架代码</p>
+            <p>4、引入less/scss,解决前端css代码加载问题</p>
+            <p>5、解决前端框架远程部署问题</p>
+            <p>6、修复已知Bug</p>
+        </div>
+
+
+        <hr>
+
+        <h4>获取框架</h4>
+
+        <div class="sunlight-container">
+
+
+            <div class="sunlight-content">
+                <p> 1、首先需要在本机上安装nodejs软件</p>
+                <p>2、然后安装 bower 插件 如: <strong>npm install -g bower </strong></p>
+                <p>3、设置npm 私服地址: <strong>npm set registry http://10.100.3.213:8098</strong></p>
+                <p> 4、在前端目录中执行 先执行 <span
+                        class="sunlight-required"><strong>bower install</strong></span>命令安装项目模板，再执行<span
+                        class="sunlight-required"><strong>npm install</strong></span>安装前端框架</p>
+
+                <p>5、在前端内框架中默认没有集成GIS通用框架,如果需要在项目中使用GIS框架 则需要在当前项目中安装GIS框架,执行 <span class="sunlight-required">
+                <strong> npm install gisframework-arcgis</strong></span>安装</p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="panel panel-danger">
+
+        <div class="panel-heading">
+            <div class="panel-title">
+                备注
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <p class="sunlight-desc">
+
+                当前版本支持基于v1.0.1版本框架的项目升级，即支持深圳水工，广西防汛值班系统, <strong>暂时不支持基于框架v1.0.0版本开发的项目升级,如罗湖三防，山西工情</strong>
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
