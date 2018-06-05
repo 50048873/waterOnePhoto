@@ -7,6 +7,12 @@ import Highcharts from 'highcharts/highstock'
 import {handleChartClick} from '../assets/js/util'
 export default {
   name: 'ChartMoney',
+  props: {
+    data: {
+        type: Array,
+        default: []
+    }
+  },
   data() {
     return {
       chart: null
@@ -17,7 +23,16 @@ export default {
   },
   methods: {
     draw() {
-        var _this = this
+        let _this = this
+        let categories = [], seriesData = []
+        // console.log(this.data)
+        this.data.forEach((item) => {
+            seriesData.push(parseFloat(item.y))
+            categories.push(item.curDate)
+        })
+        // console.log(seriesData, categories)
+        let max = Math.max.apply(Math, seriesData),
+            min = Math.min.apply(Math, seriesData)
         let options = {
             credits: {
               enabled: false
@@ -33,9 +48,7 @@ export default {
                 text: null
             },
             xAxis: {
-                categories: [
-                    '一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'
-                ],
+                categories: categories,
                 crosshair: true,
                 labels: {
                     enabled: false
@@ -43,7 +56,7 @@ export default {
                 tickWidth: 0
             },
             yAxis: {
-                min: 0,
+                min: min - ((max - min) / 10),
                 title: {
                     text: null
                 },
@@ -56,7 +69,7 @@ export default {
                 // head + 每个 point + footer 拼接成完整的 table
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -84,17 +97,8 @@ export default {
                 }
             },
             series: [{
-                name: '东京',
-                data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-            }, {
-                name: '纽约',
-                data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-            }, {
-                name: '伦敦',
-                data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-            }, {
-                name: '柏林',
-                data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
+                name: "总资产",
+                data: seriesData
             }]
         }
       this.chart = new Highcharts.Chart(this.$el, options)
@@ -105,6 +109,6 @@ export default {
 
 <style scoped lang="less">
   .highcharts-container {
-    height: 100px;
+    height: 100%;
   }
 </style>

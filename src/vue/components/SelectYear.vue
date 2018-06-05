@@ -1,6 +1,6 @@
 <template>
   <div class="SelectYear">
-    <el-select v-model="value" placeholder="请选择" size="medium" clearable>
+    <el-select v-model="value" placeholder="请选择" size="medium">
 	    <el-option
 	      v-for="item in options"
 	      :key="item.value"
@@ -26,8 +26,15 @@
 	          value: '2016',
 	          label: '2016'
 	        }],
-	        value: ''
+	        value: '2017'
 	      }
+	    },
+	    watch: {
+	    	value(newVal, oldVal) {
+	    		if (newVal) {
+	    			this.$emit('selectChange', newVal)
+	    		}
+	    	}
 	    }
 	}
 </script>

@@ -10,24 +10,24 @@
 <script>
 	const data = [
 	    {
-	      iconCls: '',
+	      iconCls: 'nxst-jy',
 	      title: '经营',
 	      path: '/manage'
 	    },
 	    {
-	      iconCls: '',
+	      iconCls: 'nxst-sc',
 	      title: '生产',
 	      path: '/produce'
 	    },
 	    {
-	      iconCls: '',
+	      iconCls: 'nxst-kf',
 	      title: '客服',
 	      path: '/customerService'
 	    },
 	    {
-	      iconCls: '',
-	      title: '安全',
-	      path: '/security'
+	      iconCls: 'nxst-gw',
+	      title: '管网',
+	      path: '/pipe'
 	    }
 	]
 	import NavLeft from './components/NavLeft.vue';

@@ -1,0 +1,85 @@
+{
+  "status": 1,
+  "data": [
+    {
+      "curDate": "2016-10",
+      "y": "95.31",
+      "liability": "79.44",
+      "netAsset": "15.87"
+    },
+    {
+      "curDate": "2016-11",
+      "y": "95.58",
+      "liability": "79.65",
+      "netAsset": "15.93"
+    },
+    {
+      "curDate": "2016-12",
+      "y": "95.85",
+      "liability": "79.86",
+      "netAsset": "15.99"
+    },
+    {
+      "curDate": "2017-01",
+      "y": "96.12",
+      "liability": "80.07",
+      "netAsset": "16.05"
+    },
+    {
+      "curDate": "2017-02",
+      "y": "96.38",
+      "liability": "80.28",
+      "netAsset": "16.10"
+    },
+    {
+      "curDate": "2017-03",
+      "y": "96.65",
+      "liability": "80.49",
+      "netAsset": "16.16"
+    },
+    {
+      "curDate": "2017-04",
+      "y": "96.93",
+      "liability": "80.70",
+      "netAsset": "16.23"
+    },
+    {
+      "curDate": "2017-05",
+      "y": "97.20",
+      "liability": "80.91",
+      "netAsset": "16.29"
+    },
+    {
+      "curDate": "2017-06",
+      "y": "97.47",
+      "liability": "81.12",
+      "netAsset": "16.35"
+    },
+    {
+      "curDate": "2017-07",
+      "y": "97.74",
+      "liability": "81.34",
+      "netAsset": "16.40"
+    },
+    {
+      "curDate": "2017-08",
+      "y": "98.01",
+      "liability": "81.55",
+      "netAsset": "16.46"
+    },
+    {
+      "curDate": "2017-09",
+      "y": "98.29",
+      "liability": "81.77",
+      "netAsset": "16.52"
+    },
+    {
+      "curDate": "2017-10",
+      "y": "98.84",
+      "liability": "81.98",
+      "netAsset": "16.86"
+    }
+  ],
+  "msg":  "操作成功"
+}
+

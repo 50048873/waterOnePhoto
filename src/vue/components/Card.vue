@@ -5,9 +5,9 @@
         <slot name="titlePart"></slot>
       </div>
       <div class="top-right">
-        <template v-if="percent">
-          <progress-circle radius="60" percent="0.1">
-            <span class="percent">+3.7%</span>
+        <template>
+          <progress-circle radius="60" :percent="percentToNumber">
+            <span class="percent">{{percentToString}}</span>
           </progress-circle>
           <span>同比增长</span>
         </template>
@@ -15,7 +15,7 @@
     </div>
     <div class="bottom">
       <div class="icon-wrap">
-        <i>icon</i>
+        <i :class="iconCls"></i>
       </div>
       <div class="chart">
         <slot name="chartPart"></slot>
@@ -33,8 +33,20 @@ export default {
   },
   props: {
     percent: {
-      type: Boolean,
-      default: false
+      type: [String, Number],
+      default: ''
+    },
+    iconCls: {
+      type: Object,
+      default: ''
+    }
+  },
+  computed: {
+    percentToString() {
+      return this.percent == 0 ? '--' : this.percent 
+    },
+    percentToNumber() {
+      return parseFloat(this.percent) / 100
     }
   }
 }
@@ -73,9 +85,12 @@ export default {
       align-items: baseline;
       .icon-wrap {
         width: 60px;
+        font-size: 32px;
+        color: @color-theme;
       }
       .chart {
         flex: 1;
+        height: 100px;
       }
     } 
   }

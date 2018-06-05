@@ -28,6 +28,7 @@
 
 <style scoped lang="less">
   @import '../assets/less/variable.less';
+  @import '../assets/less/tool.less';
   .Tab {
     display: flex;
     text-align: center;
@@ -42,6 +43,15 @@
       &.ON {
         background-color: @color-theme;
         color: white;
+        position: relative;
+         &:before {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          margin-left: -6px;
+          .sj-b(6px, @color-theme);
+        } 
       }
     }
   }

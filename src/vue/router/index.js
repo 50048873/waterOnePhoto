@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Manage from '../components/Manage.vue'
 import Produce from '../components/Produce.vue'
 import CustomerService from '../components/CustomerService.vue'
-import Security from '../components/Security.vue'
+import Pipe from '../components/Pipe.vue'
 
 Vue.use(Router)
 
@@ -32,9 +32,9 @@ let router = new Router({
       component: CustomerService,
     },
     {
-      path: "/security",
-      name: "security",
-      component: Security,
+      path: "/pipe",
+      name: "pipe",
+      component: Pipe,
     }
   ]
 });

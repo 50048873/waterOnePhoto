@@ -1,6 +1,6 @@
 <template>
   <div>
-    安全
+    管网
   </div>
 </template>
 

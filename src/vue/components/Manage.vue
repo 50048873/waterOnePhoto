@@ -1,31 +1,28 @@
 <template>
   <section class="Manage">
     <div class="top">
-    	<div class="search-tab">
-    		<tab :data="data2"></tab>
-    	</div>
     	<div class="search-year">
-    		<select-year></select-year>
+    		<select-year @selectChange="selectChange"></select-year>
     	</div>
     </div>
     <div class="content-warp">
     	<div class="left" :style="getBgImage()">
     		<div class="cards">
-	    		<card class="card ON" :percent="percent">
+	    		<card class="card ON" :percent="card1.percent" :iconCls="iconCls[0]">
 	    			<template slot="titlePart">
 	    				<h3>
 				          <span>总资产</span>
 				          <span>（亿元）</span>
 				        </h3>
 		    			<div class="totalMoney">
-				          <span class="title">81.98</span>
+				          <span class="title">{{card1.totalAssetCount}}</span>
 				        </div>
 			        </template>
 			        <template slot="chartPart">
-			        	<chart-money></chart-money>
+			        	<chart-money :data="card1.totalAsset" v-if="card1.totalAsset.length"></chart-money>
 			        </template>
 	    		</card>
-	    		<card class="card" :percent="percent">
+	    		<card class="card" :iconCls="iconCls[1]">
 	    			<template slot="titlePart">
 	    				<h3>
 				          <span>负债总额</span>
@@ -44,7 +41,7 @@
 			        	<chart-money></chart-money>
 			        </template>
 	    		</card>
-	    		<card class="card" :percent="percent">
+	    		<card class="card" :iconCls="iconCls[2]">
 	    			<template slot="titlePart">
 	    				<h3>
 				          <span>净资产</span>
@@ -58,7 +55,7 @@
 			        	<chart-money></chart-money>
 			        </template>
 	    		</card>
-	    		<card class="card" :percent="percent">
+	    		<card class="card" :iconCls="iconCls[3]">
 	    			<template slot="titlePart">
 	    				<h3>
 				          <span>营业总收入</span>
@@ -76,7 +73,7 @@
 			        	<chart-money></chart-money>
 			        </template>
 	    		</card>
-	    		<card class="card" :percent="percent">
+	    		<card class="card" :iconCls="iconCls[4]">
 	    			<template slot="titlePart">
 	    				<h3>
 				          <span>利润总额</span>
@@ -95,7 +92,7 @@
 			        	<chart-money></chart-money>
 			        </template>
 	    		</card>
-	    		<card class="card" :percent="percent">
+	    		<card class="card" :iconCls="iconCls[5]">
 	    			<template slot="titlePart">
 	    				<h3>
 				          <span>投资</span>
@@ -159,6 +156,8 @@
 	import {getStaticPath} from '../assets/js/mixin'
 	import MapNx from './MapNx'
 	import SelectYear from './SelectYear'
+	import * as api from '../assets/js/api'
+	import {getMax} from '../assets/js/util'
 	export default {
 	    name: 'Manage',
 	    components: {
@@ -173,19 +172,45 @@
 	    	SelectYear
 	    },
 	    mixins: [getStaticPath],
-	    methods: {
-		    getBgImage() {
-		    	return {backgroundImage: `url(${this.getStaticPath('/static/img/bg.jpg')})`}
-		    }
-	    },
 	    data() {
 	    	return {
-	    		percent: true
+	    		curDate: '2017',
+	    		card1: {
+	    			percent: '',
+		    		totalAsset: [],
+		    		totalAssetCount: 0
+	    		}
 	    	}
 	    },
+	    methods: {
+	    	selectChange(newVal) {
+	    		this.curDate = newVal
+	    		this.card1.totalAsset = []
+	    		this.getTotalAsset()
+	    	},
+		    getBgImage() {
+		    	return {backgroundImage: `url(${this.getStaticPath('/static/img/bg.jpg')})`}
+		    },
+		    initParam() {
+		    	this.data1 = data1
+	    		this.data2 = data2
+	    		this.iconCls = ['nxst-money', 'nxst-fzze', 'nxst-jzc', 'nxst-money', 'nxst-lrzr', 'nxst-tz']
+		    },
+		    getTotalAsset() {
+		    	let params = {
+		    		curDate: this.curDate
+		    	}
+		    	api.getTotalAsset(params)
+		    		.then((res) => {
+		            	this.card1.totalAsset = res.totalAsset
+		            	this.card1.percent = res.percent
+		            	this.card1.totalAssetCount = getMax(res.totalAsset) || '--'
+			        })
+		    }
+	    },
 	    created() {
-	    	this.data1 = data1
-	    	this.data2 = data2
+	    	this.initParam()
+	    	this.getTotalAsset()
 	    }
 	}
 </script>
@@ -196,12 +221,8 @@
 		.top {
 			display: flex;
 			margin-bottom: 10px;
-			.search-tab {
-				flex-basis: 220px;
-			}
 			.search-year {
 				flex-basis: 120px;
-				margin-left: 10px;
 			}
 		}
 		.content-warp {

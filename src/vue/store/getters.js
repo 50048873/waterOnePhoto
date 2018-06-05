@@ -1,0 +1,1 @@
+export const totalAsset = state => state.totalAsset

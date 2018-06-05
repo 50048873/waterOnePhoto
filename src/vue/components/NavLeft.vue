@@ -1,7 +1,7 @@
 <template>
   <nav>
    <router-link :to="item.path" v-for="(item, index) in data">
-     <span class="iconWrap" v-if="item.iconCls"><i :class="item.iconCls"></i></span>icon
+     <span class="iconWrap" v-if="item.iconCls"><i :class="item.iconCls"></i></span>
      <span class="title">{{item.title}}</span>
    </router-link>
   </nav>
@@ -32,6 +32,9 @@
         background-color: white;
         color: @color-theme;
       }
+    }
+    .title {
+      margin-left: 6px; 
     }
   }
 </style>
