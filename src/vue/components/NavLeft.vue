@@ -1,6 +1,6 @@
 <template>
   <nav>
-   <router-link :to="item.path" v-for="(item, index) in data">
+   <router-link :to="item.path" v-for="(item, index) in data" :key="index">
      <span class="iconWrap" v-if="item.iconCls"><i :class="item.iconCls"></i></span>
      <span class="title">{{item.title}}</span>
    </router-link>

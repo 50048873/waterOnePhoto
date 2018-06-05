@@ -15,14 +15,14 @@
 				          <span>（亿元）</span>
 				        </h3>
 		    			<div class="totalMoney">
-				          <span class="title">{{card1.totalAssetCount}}</span>
+				          <span class="title">{{card1.currentValue}}</span>
 				        </div>
 			        </template>
 			        <template slot="chartPart">
-			        	<chart-money :data="card1.totalAsset" v-if="card1.totalAsset.length"></chart-money>
+			        	<chart-money :data="card1.list" v-if="card1.list.length"></chart-money>
 			        </template>
 	    		</card>
-	    		<card class="card" :iconCls="iconCls[1]">
+	    		<card class="card" :percent="card2.percent" :iconCls="iconCls[1]">
 	    			<template slot="titlePart">
 	    				<h3>
 				          <span>负债总额</span>
@@ -30,47 +30,47 @@
 				        </h3>
 		    			<div class="totalMoney">
 				          <span class="title">总　额</span>
-				          <span class="strongCount bgc-theme">81.98</span>
+				          <span class="strongCount bgc-theme">{{card2.currentValue}}</span>
 				        </div>
 				        <div class="liabilityPercent">
 				          <span class="title">负债率</span>
-				          <span class="strongCount bgc-green">81.98%</span>
+				          <span class="strongCount bgc-green">{{card2.fzl}}</span>
 				        </div>
 			        </template>
 			        <template slot="chartPart">
-			        	<chart-money></chart-money>
+			        	<chart-money :data="card2.list" v-if="card2.list.length"></chart-money>
 			        </template>
 	    		</card>
-	    		<card class="card" :iconCls="iconCls[2]">
+	    		<card class="card" :percent="card3.percent" :iconCls="iconCls[2]">
 	    			<template slot="titlePart">
 	    				<h3>
 				          <span>净资产</span>
 				          <span>（亿元）</span>
 				        </h3>
 		    			<div class="totalMoney">
-				          <span class="title">16.86</span>
+				          <span class="title">{{card3.currentValue}}</span>
 				        </div>
 			        </template>
 			        <template slot="chartPart">
-			        	<chart-money></chart-money>
+			        	<chart-money :data="card3.list" v-if="card3.list.length"></chart-money>
 			        </template>
 	    		</card>
-	    		<card class="card" :iconCls="iconCls[3]">
+	    		<card class="card" :percent="card4.percent" :iconCls="iconCls[3]">
 	    			<template slot="titlePart">
 	    				<h3>
 				          <span>营业总收入</span>
 				          <span>（万元）</span>
 				        </h3>
 		    			<div class="totalMoney">
-				          <span class="title">143435</span>
+				          <span class="title">{{card4.currentValue}}</span>
 				        </div>
 				        <div class="liabilityPercent">
-				          <span class="title">同比增长</span>
-				          <span class="strongCount bgc-theme">59%</span>
+				          <span class="title">完成率</span>
+				          <span class="strongCount bgc-theme">{{card4.yyzsrtbzz}}</span>
 				        </div>
 			        </template>
 			        <template slot="chartPart">
-			        	<chart-money></chart-money>
+			        	<chart-money :data="card4.list" v-if="card4.list.length"></chart-money>
 			        </template>
 	    		</card>
 	    		<card class="card" :iconCls="iconCls[4]">
@@ -157,7 +157,7 @@
 	import MapNx from './MapNx'
 	import SelectYear from './SelectYear'
 	import * as api from '../assets/js/api'
-	import {getMax} from '../assets/js/util'
+	import {getCurrentValue, getPercent} from '../assets/js/util'
 	export default {
 	    name: 'Manage',
 	    components: {
@@ -177,16 +177,36 @@
 	    		curDate: '2017',
 	    		card1: {
 	    			percent: '',
-		    		totalAsset: [],
-		    		totalAssetCount: 0
+		    		list: [],
+		    		currentValue: '--'
+	    		},
+	    		card2: {
+	    			percent: '',
+		    		list: [],
+		    		currentValue: '--',
+		    		fzl: ''
+	    		},
+	    		card3: {
+	    			percent: '',
+		    		list: [],
+		    		currentValue: '--'
+	    		},
+	    		card4: {
+	    			percent: '',
+		    		list: [],
+		    		currentValue: '--',
+		    		yyzsrtbzz: ''
 	    		}
 	    	}
 	    },
 	    methods: {
 	    	selectChange(newVal) {
 	    		this.curDate = newVal
-	    		this.card1.totalAsset = []
-	    		this.getTotalAsset()
+	    		this.card1.list = []
+	    		this.card2.list = []
+	    		this.card3.list = []
+	    		this.card4.list = []
+	    		this.loadData()
 	    	},
 		    getBgImage() {
 		    	return {backgroundImage: `url(${this.getStaticPath('/static/img/bg.jpg')})`}
@@ -202,15 +222,63 @@
 		    	}
 		    	api.getTotalAsset(params)
 		    		.then((res) => {
-		            	this.card1.totalAsset = res.totalAsset
-		            	this.card1.percent = res.percent
-		            	this.card1.totalAssetCount = getMax(res.totalAsset) || '--'
+		            	this.card1.list = res
+		            	this.card1.percent = getPercent(res, 'percent')
+		            	this.card1.currentValue = getCurrentValue(res)
 			        })
+		    },
+		    getFzze() {
+		    	let params = {
+		    		curDate: this.curDate
+		    	}
+		    	let handleFzl = (fz, zc) => {
+		    		let percent = fz / zc * 100
+		    		if (isNaN(percent)) {
+		    			return '--'
+		    		}
+		    		return percent.toFixed(2) + '%'
+		    	}
+		    	api.getFzze(params)
+		    		.then((res) => {
+		            	this.card2.list = res
+		            	this.card2.percent = getPercent(res, 'percent')
+		            	this.card2.currentValue = getCurrentValue(res)
+		            	this.card2.fzl = handleFzl(this.card2.currentValue, this.card1.currentValue)
+			        })
+		    },
+		    getJzc() {
+		    	let params = {
+		    		curDate: this.curDate
+		    	}
+		    	api.getJzc(params)
+		    		.then((res) => {
+		            	this.card3.list = res
+		            	this.card3.percent = getPercent(res, 'percent')
+		            	this.card3.currentValue = getCurrentValue(res)
+			        })
+		    },
+		    getYysr() {
+		    	let params = {
+		    		curDate: this.curDate
+		    	}
+		    	api.getYysr(params)
+		    		.then((res) => {
+		            	this.card4.list = res
+		            	this.card4.percent = getPercent(res, 'percent')
+		            	this.card4.currentValue = getCurrentValue(res)
+		            	this.card4.yyzsrtbzz = getPercent(res, 'yyzsrtbzz')
+			        })
+		    },
+		    loadData() {
+		    	this.getTotalAsset()
+	    		this.getFzze()
+	    		this.getJzc()
+	    		this.getYysr()
 		    }
 	    },
 	    created() {
 	    	this.initParam()
-	    	this.getTotalAsset()
+	    	this.loadData()
 	    }
 	}
 </script>
