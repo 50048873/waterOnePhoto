@@ -1,7 +1,9 @@
 <template>
   <section class="CardTwo">
     <h3 class="title">{{title}}</h3>
-    <slot></slot>
+    <div class="chart" :style="getHeight">
+      <slot></slot>
+    </div>
   </section>
 </template>
 
@@ -12,7 +14,19 @@ export default {
   	title: {
   		type: String,
   		default: ''
-  	}
+  	},
+    height: {
+        type: String,
+        default: 300
+    }
+  },
+  computed: {
+    getHeight() {
+      let height = parseFloat(this.height) + 'px'
+      return {
+        height: height
+      }
+    }
   }
 }
 </script>

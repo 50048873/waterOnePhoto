@@ -54,7 +54,7 @@
 		}
 		.main-wrap {
 			flex: 1;
-			margin: 10px;
+			margin-left: 10px;
 		}
 	}
 </style>

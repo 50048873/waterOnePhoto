@@ -30,7 +30,9 @@
         if (isNaN(this.percent)) {
           return this.dashArray
         }
-        return (1 - parseFloat(this.percent)) * this.dashArray
+        let percent = (1 - parseFloat(this.percent))
+        percent = percent < 0 ? 0 : percent
+        return percent * this.dashArray
       }
     }
   }

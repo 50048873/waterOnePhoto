@@ -7,6 +7,12 @@ import Highcharts from 'highcharts/highstock';
 
 export default {
   name: 'ChartBarBasic',
+  props: {
+    data: {
+        type: Array,
+        default: []
+    }
+  },
   data() {
     return {
       chart: null
@@ -17,6 +23,25 @@ export default {
   },
   methods: {
     draw() {
+        let _this = this
+        let categories = [], seriesData = []
+        // console.log(this.data)
+        let obj1 = {
+                name: '营业收入',
+                data: []
+            }, 
+            obj2 = {
+                name: '利润总额',
+                data: []
+            }
+        this.data.forEach((item) => {
+            obj1.data.push(item.y1)
+            obj2.data.push(item.y2)
+            categories.push(item.name)
+        })
+        seriesData.push(obj1)
+        seriesData.push(obj2)
+        // console.log(categories, seriesData)
         let options = {
             credits: {
                 enabled: false
@@ -32,7 +57,7 @@ export default {
             },
             xAxis: {
                 // tickWidth: 0, // 刻度线
-                categories: ['非洲', '美洲', '亚洲', '欧洲', '大洋洲'],
+                categories: categories,
                 title: {
                     text: null
                 }
@@ -49,30 +74,28 @@ export default {
                     overflow: 'justify'
                 }
             },
+
             tooltip: {
-                valueSuffix: ' 百万'
+                // head + 每个 point + footer 拼接成完整的 table
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}：</td>' +
+                '<td style="padding:0"><b>{point.y:.2f}万元</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
             },
             plotOptions: {
                 bar: {
                     dataLabels: {
-                        enabled: true,
+                        enabled: false, // 不显示图上数字
                         allowOverlap: true // 允许数据标签重叠
                     }
                 }
             },
             legend: { // 图例
-                enabled: false,
+                enabled: true,
             },
-            series: [{
-                name: '1800 年',
-                data: [107, 31, 635, 203, 2]
-            }, {
-                name: '1900 年',
-                data: [133, 156, 947, 408, 6]
-            }, {
-                name: '2008 年',
-                data: [973, 914, 4054, 732, 34]
-            }]
+            series: seriesData
         }
         this.chart = new Highcharts.Chart(this.$el, options)
     }
@@ -82,6 +105,6 @@ export default {
 
 <style scoped lang="less">
     .highcharts-container {
-        height: 300px;
+        height: 400px;
     }
 </style>

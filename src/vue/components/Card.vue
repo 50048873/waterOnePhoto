@@ -5,8 +5,8 @@
         <slot name="titlePart"></slot>
       </div>
       <div class="top-right">
-        <template>
-          <progress-circle radius="60" :percent="percentToNumber">
+        <template v-if="percent">
+          <progress-circle radius="70" :percent="percentToNumber">
             <span class="percent">{{percentToString}}</span>
           </progress-circle>
           <span>同比增长</span>
@@ -77,6 +77,7 @@ export default {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
+          font-size: 12px;
         }
       }
     }

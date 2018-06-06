@@ -7,6 +7,12 @@ import Highcharts from 'highcharts/highstock';
 
 export default {
   name: 'ChartProfit',
+  props: {
+    data: {
+        type: Array,
+        default: []
+    }
+  },
   data() {
     return {
       chart: null
@@ -17,7 +23,7 @@ export default {
   },
   methods: {
     draw() {
-        var chart = null;
+        var chart = null, _this = this;
         let options = {
             credits: {
                 enabled: false
@@ -27,7 +33,7 @@ export default {
             },
             title: {
                 floating: true,
-                text: "总计",
+                text: null, //圆中心文字
                 style: { "fontWeight": "bold", "fontSize": "12px" }
             },
             tooltip: {
@@ -71,25 +77,8 @@ export default {
             },
             series: [{
                 type: 'pie',
-                name: '标题',
-                data: [
-                        {
-                        "name": "施工",
-                        "y": 8
-                    },
-                    {
-                        "name": "供水",
-                        "y": 52
-                    },
-                    {
-                        "name": "污水",
-                        "y": 10
-                    },
-                    {
-                        "name": "其它",
-                        "y": 30
-                    }
-                ]
+                name: '利润总额分版块构成',
+                data: _this.data
             }]
         }
         let callback = (c) => {

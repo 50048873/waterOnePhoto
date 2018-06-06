@@ -11,6 +11,10 @@ export default {
     data: {
         type: Array,
         default: []
+    },
+    hasMin: {
+        type: Boolean,
+        default: false
     }
   },
   data() {
@@ -56,7 +60,7 @@ export default {
                 tickWidth: 0
             },
             yAxis: {
-                min: min - ((max - min) / 10),
+                min: _this.hasMin ? min - ((max - min) / 10) : 0,
                 title: {
                     text: null
                 },
