@@ -1,6 +1,5 @@
 <template>
   <section class="Manage">
-
 	<div class="left" :style="getBgImage()">
 		<div class="select-wrap">
 	    	<div class="search-year">
@@ -117,7 +116,7 @@
 		</div>
 	</div>
 	<div class="right m-content-right">
-		<tab :data="data1"></tab>
+		<tab :data="tabData" @tabChange="tabChange"></tab>
 		<div class="carts">
 			<card-two class="card" title="各分公司供水量（万吨）">
 				<chart-columnar-basic :data="card7.list" v-if="card7.list.length"></chart-columnar-basic>
@@ -130,25 +129,16 @@
 			</card-two>
 		</div>
 	</div>
-
   </section>
 </template>
 
 <script>
-	const data1 = [
+	const tabData = [
 	    {
 	      title: '2017'
 	    },
 	    {
 	      title: '2016'
-	    }
-	]
-	const data2 = [
-	    {
-	      title: '年'
-	    },
-	    {
-	      title: '月'
 	    }
 	]
 	import ChartMoney from './ChartMoney'
@@ -179,6 +169,7 @@
 	    mixins: [getStaticPath],
 	    data() {
 	    	return {
+	    		tabData: tabData,
 	    		curDate: '2017',
 	    		card1: {
 	    			percent: '',
@@ -230,6 +221,8 @@
 	    methods: {
 	    	selectChange(newVal) {
 	    		this.curDate = newVal
+	    		this.tabData[0].title = newVal
+	    		this.tabData[1].title = parseInt(newVal) - 1
 	    		this.card1.list = []
 	    		this.card2.list = []
 	    		this.card3.list = []
@@ -241,12 +234,16 @@
 	    		this.card9.list = []
 	    		this.loadData()
 	    	},
+	    	tabChange(index, title) {
+	    		let params = {
+	    			curDate: title
+	    		}
+	    		this.get_7(params)
+	    	},
 		    getBgImage() {
 		    	return {backgroundImage: `url(${this.getStaticPath('/static/img/bg.jpg')})`}
 		    },
 		    initParam() {
-		    	this.data1 = data1
-	    		this.data2 = data2
 	    		this.iconCls = ['nxst-money', 'nxst-fzze', 'nxst-jzc', 'nxst-money', 'nxst-lrzr', 'nxst-tz']
 		    },
 		    get_1() {
@@ -325,9 +322,11 @@
 		            	this.card6.jhtz = getCurrentValue(res.list, 'jhtz')
 			        })
 		    },
-		    get_7() {
-		    	let params = {
-		    		curDate: this.curDate
+		    get_7(params) {
+		    	if (!params) {
+		    		params = {
+			    		curDate: this.curDate
+			    	}
 		    	}
 		    	api.get_7(params)
 		    		.then((res) => {

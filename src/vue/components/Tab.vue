@@ -1,6 +1,6 @@
 <template>
   <div class="Tab">
-     <span v-for="(item, index) in data" class="title" :class="{ON: current === index}" @click="setCurrent(index)">{{item.title}}</span>
+     <span v-for="(item, index) in data" class="title" :class="{ON: current === index}" @click="setCurrent(index, item.title)">{{item.title}}</span>
   </div>
 </template>
 
@@ -19,8 +19,9 @@
       }
     },
     methods: {
-      setCurrent(index) {
+      setCurrent(index, title) {
         this.current = index
+        this.$emit('tabChange', index, title)
       }
     }
   }
